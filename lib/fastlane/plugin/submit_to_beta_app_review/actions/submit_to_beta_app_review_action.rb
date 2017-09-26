@@ -7,7 +7,7 @@ module Fastlane
         Spaceship::Tunes.select_team
         UI.message("Login successful")
 
-        app = Spaceship::Tunes::Application.find(params[:app_id] || params[:bundle_id])
+        app = Spaceship::Tunes::Application.find(params[:apple_id] || params[:app_identifier])
 
         version = app.edit_version
         build = version.candidate_builds.find { |b| b.build_version == params[:build_number] }
@@ -39,22 +39,23 @@ module Fastlane
 
         default_app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
         default_itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
+        default_itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
         [
           FastlaneCore::ConfigItem.new(
-            key: :bundle_id,
+            key: :app_identifier,
             env_name: "BETAREVIEW_APP_IDENTIFIER",
             description: "The bundle identifier of your app",
             optional: true,
-            conflicting_options: [:app_id],
+            conflicting_options: [:apple_id],
             default_value: default_app_identifier
           ),
 
           FastlaneCore::ConfigItem.new(
-            key: :app_id,
-            env_name: "BETAREVIEW_APP_ID",
+            key: :apple_id,
+            env_name: "BETAREVIEW_APPLE_ID",
             description: "Apple ID of the application",
             optional: true,
-            conflicting_options: [:bundle_id],
+            conflicting_options: [:app_identifier],
             is_string: true,
           ),
 
@@ -66,22 +67,22 @@ module Fastlane
           ),
 
           FastlaneCore::ConfigItem.new(
-            key: :team_id,
+            key: :itc_team_id,
             env_name: "BETAREVIEW_TEAM_ID",
             description: "The ID of your iTunes Connect team if you're in multiple teams",
             optional: true,
-            default_value: CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id),
+            default_value: default_itc_team_id,
             verify_block: proc do |value|
               ENV["FASTLANE_ITC_TEAM_ID"] = value.to_s
             end
           ),
 
           FastlaneCore::ConfigItem.new(
-            key: :team_name,
+            key: :itc_team_name,
             env_name: "BETAREVIEW_TEAM_NAME",
             description: "The name of your iTunes Connect team if you're in multiple teams",
             optional: true,
-            default_value: CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name),
+            default_value: default_itc_team_name,
             verify_block: proc do |value|
               ENV["FASTLANE_ITC_TEAM_NAME"] = value.to_s
             end
