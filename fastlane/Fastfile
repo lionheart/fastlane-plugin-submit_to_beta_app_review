@@ -1,0 +1,3 @@
+lane :test do
+  submit_to_beta_app_review
+end
