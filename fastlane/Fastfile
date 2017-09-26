@@ -1,3 +1,22 @@
+# vim: ft=ruby
+
 lane :test do
-  submit_to_beta_app_review
+    beta_app_review_information = {
+      changelog: "Awesome new features",
+      review_first_name: "Dan",
+      review_last_name: "Loewenherz",
+      review_email: "dan@lionheartsw.com",
+      review_phone_number: "1111111111",
+      review_notes: nil,
+
+      review_demo_user: "",
+      review_demo_password: "",
+    }
+
+    submit_to_beta_app_review(
+      bundle_identifier: "com.yourcompanyname.app",
+      itc_team_id: "123456",
+      build_number: "100",
+      beta_app_review_information: beta_app_review_information
+    )
 end
