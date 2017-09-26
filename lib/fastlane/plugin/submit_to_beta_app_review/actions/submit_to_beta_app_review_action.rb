@@ -34,44 +34,44 @@ module Fastlane
       end
 
       def self.available_options
-        user = CredentialsManager::AppfileConfig.try_fetch_value(:itunes_connect_id)
-        user ||= CredentialsManager::AppfileConfig.try_fetch_value(:apple_id)
+        default_user = CredentialsManager::AppfileConfig.try_fetch_value(:itunes_connect_id)
+        default_user ||= CredentialsManager::AppfileConfig.try_fetch_value(:apple_id)
 
         default_app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+        default_itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
         [
           FastlaneCore::ConfigItem.new(
             key: :bundle_id,
-            env_name: "FL_BETAREVIEW_BUNDLE_ID",
-            description: "Bundle ID of the application",
+            env_name: "BETAREVIEW_APP_IDENTIFIER",
+            description: "The bundle identifier of your app",
             optional: true,
             conflicting_options: [:app_id],
+            default_value: default_app_identifier
           ),
 
           FastlaneCore::ConfigItem.new(
             key: :app_id,
-            env_name: "FL_BETAREVIEW_APP_ID",
+            env_name: "BETAREVIEW_APP_ID",
             description: "Apple ID of the application",
             optional: true,
             conflicting_options: [:bundle_id],
             is_string: true,
-            default_value: default_app_identifier
           ),
 
           FastlaneCore::ConfigItem.new(
             key: :username,
             short_option: "-u",
-            env_name: "FL_BETAREVIEW_USER",
+            env_name: "BETAREVIEW_USER",
             description: "Your Apple ID Username",
-            default_value: user
+            default_value: default_user
           ),
 
           FastlaneCore::ConfigItem.new(
             key: :team_id,
-            short_option: "-k",
-            env_name: "FL_BETAREVIEW_TEAM_ID",
+            short_option: "-b",
+            env_name: "BETAREVIEW_TEAM_ID",
             description: "The ID of your iTunes Connect team if you're in multiple teams",
             optional: true,
-            is_string: false,
             default_value: CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id),
             verify_block: proc do |value|
               ENV["FASTLANE_ITC_TEAM_ID"] = value.to_s
@@ -79,8 +79,20 @@ module Fastlane
           ),
 
           FastlaneCore::ConfigItem.new(
+            key: :team_name,
+            short_option: "-l",
+            env_name: "BETAREVIEW_TEAM_NAME",
+            description: "The name of your iTunes Connect team if you're in multiple teams",
+            optional: true,
+            default_value: CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name),
+            verify_block: proc do |value|
+              ENV["FASTLANE_ITC_TEAM_NAME"] = value.to_s
+            end
+          ),
+
+          FastlaneCore::ConfigItem.new(
             key: :build_number,
-            env_name: "FL_BETAREVIEW_BUILD_NUMBER",
+            env_name: "BETAREVIEW_BUILD_NUMBER",
             description: "Build number",
             optional: false,
             is_string: true
@@ -96,13 +108,9 @@ module Fastlane
       end
 
       def self.output
-        [
-          ['SUBMIT_TO_BETA_APP_REVIEW_CUSTOM_VALUE', 'A description of what this value contains']
-        ]
       end
 
       def self.return_value
-        # If your method provides a return value, you can describe here what it does
       end
 
       def self.authors
