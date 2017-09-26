@@ -60,7 +60,6 @@ module Fastlane
 
           FastlaneCore::ConfigItem.new(
             key: :username,
-            short_option: "-u",
             env_name: "BETAREVIEW_USER",
             description: "Your Apple ID Username",
             default_value: default_user
@@ -68,7 +67,6 @@ module Fastlane
 
           FastlaneCore::ConfigItem.new(
             key: :team_id,
-            short_option: "-b",
             env_name: "BETAREVIEW_TEAM_ID",
             description: "The ID of your iTunes Connect team if you're in multiple teams",
             optional: true,
@@ -80,7 +78,6 @@ module Fastlane
 
           FastlaneCore::ConfigItem.new(
             key: :team_name,
-            short_option: "-l",
             env_name: "BETAREVIEW_TEAM_NAME",
             description: "The name of your iTunes Connect team if you're in multiple teams",
             optional: true,
