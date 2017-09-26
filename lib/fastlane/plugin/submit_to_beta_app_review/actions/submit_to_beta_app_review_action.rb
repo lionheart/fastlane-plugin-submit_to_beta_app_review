@@ -7,7 +7,7 @@ module Fastlane
         Spaceship::Tunes.select_team
         UI.message("Login successful")
 
-        app = Spaceship::Tunes::Application.find(params[:apple_id] || params[:app_identifier])
+        app = Spaceship::Tunes::Application.find(params[:apple_id] || params[:bundle_identifier])
 
         version = app.edit_version
         build = version.candidate_builds.find { |b| b.build_version == params[:build_number] }
@@ -42,8 +42,8 @@ module Fastlane
         default_itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
         [
           FastlaneCore::ConfigItem.new(
-            key: :app_identifier,
-            env_name: "BETAREVIEW_APP_IDENTIFIER",
+            key: :bundle_identifier,
+            env_name: "BETAREVIEW_BUNDLE_IDENTIFIER",
             description: "The bundle identifier of your app",
             optional: true,
             conflicting_options: [:apple_id],
@@ -55,7 +55,7 @@ module Fastlane
             env_name: "BETAREVIEW_APPLE_ID",
             description: "Apple ID of the application",
             optional: true,
-            conflicting_options: [:app_identifier],
+            conflicting_options: [:bundle_identifier],
             is_string: true,
           ),
 
