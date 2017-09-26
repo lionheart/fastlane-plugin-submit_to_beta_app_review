@@ -15,9 +15,9 @@ module Fastlane
 
         begin
           build.submit_for_beta_review!(params[:beta_app_review_information])
-          UI.message("Submitted! 🎉")
+          UI.success("Submitted! 🎉")
         rescue
-          UI.message("An iTunes Connect error was encountered and the build was not submitted")
+          UI.error("An iTunes Connect error was encountered and the build was not submitted.")
         end
       end
 
