@@ -12,9 +12,29 @@ fastlane add_plugin submit_to_beta_app_review
 
 ## About submit_to_beta_app_review
 
-This is a plugin that lets you submit an already-processed iTunes Connect build to Beta App Review.
+This is a plugin that adds a single action that submits a processed iTunes Connect build to Beta App Review. I wrote this since the existing fastlane `deliver` action requires a build be uploaded to submit a build to Beta App Review.
 
 ## Example
+
+```ruby
+beta_app_review_information = {
+  changelog: '...',
+  review_first_name: '...',
+  review_last_name: '...',
+  review_email: '...',         # Your contact email
+  review_phone_number: '...',  # Your phone number
+  review_notes: '...',         # Any notes you'd like to provide
+  review_demo_user: '...',     # The user name Beta App Review can use to sign in to your app
+  review_demo_password: '...', # The password Beta App Review can use to sign in to your app
+}
+
+submit_to_beta_app_review(
+  bundle_identifier: "com.yourcompanyname.app",
+  itc_team_id: "123456", # Optional
+  build_number: "100",
+  beta_app_review_information: beta_app_review_information
+)
+```
 
 Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`.
 
