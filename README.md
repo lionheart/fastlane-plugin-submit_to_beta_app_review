@@ -12,7 +12,7 @@ fastlane add_plugin submit_to_beta_app_review
 
 ## About submit_to_beta_app_review
 
-This is a plugin that adds a single action that submits a processed iTunes Connect build to Beta App Review. I wrote this since the existing fastlane `deliver` action requires a build be uploaded to submit a build to Beta App Review.
+This is a plugin that adds a single action that submits a processed iTunes Connect build to Beta App Review. I wrote this since the existing fastlane `deliver` action requires a build be uploaded at the same time as submission. Sometimes it's helpful to test internally first before submitting the build. That's where `submit_to_beta_app_review` comes in. ;)
 
 ## Example
 
